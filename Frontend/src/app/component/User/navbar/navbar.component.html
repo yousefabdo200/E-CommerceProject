@@ -1,0 +1,114 @@
+<nav class="bg-gray-800">
+  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <div class="relative flex h-16 items-center justify-between">
+
+      <!-- Mobile menu button -->
+      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+        <button
+          type="button"
+          class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+          (click)="toggleMobileMenu()"
+          aria-controls="mobile-menu"
+          [attr.aria-expanded]="isMobileMenuOpen"
+        >
+          <span class="sr-only">Open main menu</span>
+
+          @if(!isMobileMenuOpen){
+            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          }
+
+          @if(isMobileMenuOpen){
+            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          }
+        </button>
+      </div>
+
+      <!-- Logo + Desktop Links -->
+      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="flex flex-shrink-0 items-center">
+          <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Logo" />
+        </div>
+        <div class="hidden sm:ml-6 sm:block">
+          <div class="flex space-x-4">
+            <a routerLink="/Home" routerLinkActive="bg-gray-900 text-white"
+               class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+              Home Page
+            </a>
+            <a routerLink="/orderlist" routerLinkActive="bg-gray-900 text-white"
+               class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+              My Orders
+            </a>
+            <a routerLink="/cart" routerLinkActive="bg-gray-900 text-white"
+               class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+              Cart
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side -->
+      <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+        <!-- Profile dropdown -->
+        @if(role === 'user') {
+          <div class="relative ml-3" (mouseenter)="showProfile = true" (mouseleave)="showProfile = false">
+            <button type="button" class="flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+              <img
+                class="h-8 w-8 rounded-full object-cover"
+                [src]="img"
+                [alt]="'User profile image'"
+                (error)="img = 'https://via.placeholder.com/32x32?text=U'"
+              />
+            </button>
+
+            @if(showProfile) {
+              <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5">
+                <a routerLink="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                <a routerLink="/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</a>
+                <a (click)="logout()" class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100">Log Out</a>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="flex space-x-2">
+            <a routerLink="/login" routerLinkActive="bg-gray-900 text-white"
+               class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+              Login
+            </a>
+            <a routerLink="/signup" routerLinkActive="bg-gray-900 text-white"
+               class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+              Signup
+            </a>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  @if(isMobileMenuOpen) {
+    <div class="sm:hidden" id="mobile-menu">
+      <div class="space-y-1 px-2 pt-2 pb-3">
+        <a routerLink="/Home" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Home</a>
+        <a routerLink="/orderlist" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">My Orders</a>
+        <a routerLink="/cart" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Cart</a>
+
+        @if(role === 'user') {
+          <div class="border-t border-gray-700 pt-2 mt-2">
+            <a routerLink="/profile" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Profile</a>
+            <a routerLink="/settings" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Settings</a>
+            <a (click)="logout()" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium cursor-pointer">Log Out</a>
+          </div>
+        } @else {
+          <div class="border-t border-gray-700 pt-2 mt-2">
+            <a routerLink="/login" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Login</a>
+            <a routerLink="/signup" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Signup</a>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</nav>

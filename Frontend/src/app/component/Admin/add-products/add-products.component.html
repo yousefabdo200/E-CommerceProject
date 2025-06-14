@@ -1,0 +1,185 @@
+<app-admin-navbar></app-admin-navbar>
+
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center py-12 px-4">
+  <div class="bg-white p-10 rounded-xl shadow-2xl w-full max-w-md">
+    <h2 class="text-3xl font-extrabold text-center text-gray-800 mb-6">Add Product</h2>
+
+    <form [formGroup]="addproductForm" (ngSubmit)="onSubmit()" class="space-y-5">
+
+      <!-- Product Name Input with Icon -->
+      <div class="relative">
+        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+        <div class="relative">
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            placeholder="Enter product name"
+            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+            [class.border-red-500]="getFieldError('name')"
+          />
+          <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+          </div>
+        </div>
+        <div class="text-red-500 text-xs mt-1" *ngIf="getFieldError('name')">
+          {{ getFieldError('name') }}
+        </div>
+      </div>
+
+      <!-- Description Input with Icon -->
+      <div class="relative">
+        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+        <div class="relative">
+          <textarea
+            id="description"
+            formControlName="description"
+            placeholder="Enter product description"
+            rows="3"
+            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200 resize-none"
+            [class.border-red-500]="getFieldError('description')"
+          ></textarea>
+          <div class="absolute left-3 top-3 text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+        </div>
+        <div class="text-red-500 text-xs mt-1" *ngIf="getFieldError('description')">
+          {{ getFieldError('description') }}
+        </div>
+      </div>
+
+      <!-- Price Input with Icon -->
+      <div class="relative">
+        <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Price</label>
+        <div class="relative">
+          <input
+            type="number"
+            id="price"
+            formControlName="price"
+            placeholder="0.00"
+            min="0"
+            max="100000"
+            step="0.01"
+            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+            [class.border-red-500]="getFieldError('price')"
+          />
+          <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+            </svg>
+          </div>
+        </div>
+        <div class="text-red-500 text-xs mt-1" *ngIf="getFieldError('price')">
+          {{ getFieldError('price') }}
+        </div>
+      </div>
+
+      <!-- Amount Input with Icon -->
+      <div class="relative">
+        <label for="amount" class="block text-sm font-medium text-gray-700 mb-1">Amount</label>
+        <div class="relative">
+          <input
+            type="number"
+            id="amount"
+            formControlName="amount"
+            placeholder="Enter quantity"
+            min="1"
+            max="100000"
+            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+            [class.border-red-500]="getFieldError('amount')"
+          />
+          <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+            </svg>
+          </div>
+        </div>
+        <div class="text-red-500 text-xs mt-1" *ngIf="getFieldError('amount')">
+          {{ getFieldError('amount') }}
+        </div>
+      </div>
+
+      <!-- Category Name Input with Icon -->
+      <div class="relative">
+        <label for="category_name" class="block text-sm font-medium text-gray-700 mb-1">Category Name</label>
+        <div class="relative">
+          <input
+            type="text"
+            id="category_name"
+            formControlName="category_name"
+            placeholder="Enter category name"
+            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+            [class.border-red-500]="getFieldError('category_name')"
+          />
+          <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+            </svg>
+          </div>
+        </div>
+        <div class="text-red-500 text-xs mt-1" *ngIf="getFieldError('category_name')">
+          {{ getFieldError('category_name') }}
+        </div>
+      </div>
+
+      <!-- Product Image Upload -->
+      <div>
+        <label for="img" class="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
+        <div class="relative">
+          <input
+            type="file"
+            id="img"
+            accept="image/*"
+            (change)="onImageSelected($event)"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200 file:mr-4 file:py-1 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100"
+            [class.border-red-500]="hasImageError('required') || hasImageError('invalidType') || hasImageError('maxSize') || hasImageError('invalidFile')"
+          />
+        </div>
+        <!-- Image validation errors -->
+        <div class="text-red-500 text-xs mt-1" *ngIf="hasImageError('required')">
+          Please select an image file
+        </div>
+        <div class="text-red-500 text-xs mt-1" *ngIf="hasImageError('invalidType')">
+          Please select a valid image file (JPG, PNG, JPEG, GIF)
+        </div>
+        <div class="text-red-500 text-xs mt-1" *ngIf="hasImageError('maxSize')">
+          Image file size must be less than 2MB
+        </div>
+        <div class="text-red-500 text-xs mt-1" *ngIf="hasImageError('invalidFile')">
+          Invalid file format
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        [disabled]="isSubmitting"
+        class="w-full py-2 px-4 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <span *ngIf="!isSubmitting">Add Product</span>
+        <span *ngIf="isSubmitting" class="flex items-center justify-center">
+          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Adding Product...
+        </span>
+      </button>
+
+      <!-- Error Message -->
+      <div class="text-red-500 text-sm mt-2 text-center" *ngIf="errorMessage && typeof errorMessage === 'string'">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Back to Products Link -->
+      <p class="text-sm text-center text-gray-600 mt-3">
+        Want to view existing products?
+        <a routerLink="/Admin/AdminHome" class="text-blue-600 hover:underline">Go to products</a>
+      </p>
+    </form>
+  </div>
+</div>

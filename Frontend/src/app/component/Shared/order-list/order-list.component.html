@@ -1,0 +1,150 @@
+@if(role === 'admin') {
+  <app-admin-navbar></app-admin-navbar>
+} @else {
+  <app-navbar></app-navbar>
+}
+
+<div class="min-h-screen bg-gradient-to-br from-primary to-secondary p-5">
+  <div class="container mx-auto max-w-7xl">
+    <div class="max-w-4xl mx-auto mt-8">
+      <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 mb-6 border border-gray-200 shadow-2xl">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-3">
+            <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+              </svg>
+            </div>
+            Orders
+          </h2>
+
+          @if(role !== 'admin') {
+            <div class="animate-bounce">
+              <div class="bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-200">
+                <span class="text-sm font-medium text-gray-700">We will be coming soon</span>
+              </div>
+            </div>
+          }
+        </div>
+
+
+
+        <!-- Orders List -->
+        @if(orders && orders.length > 0) {
+          <div class="space-y-6">
+            @for(order of orders; track order.id) {
+              <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex justify-between items-center">
+
+                  <!-- Order Info -->
+                  <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                      <svg class="w-6 h-6 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-800 text-lg">Order #{{ order.id }}</p>
+                      <p class="font-semibold text-gray-800 text-lg">Order Location {{ order.location }}</p>
+                      <p class="text-xs text-gray-500 mt-1">{{ order.created_at | date:'medium' }}</p>
+                    </div>
+                  </div>
+
+                  <!-- Order Status & Action -->
+                  <div class="flex items-center gap-4">
+                    <div class="text-right">
+                      <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
+                        {{ order.status || 'Pending' }}
+                      </span>
+                    </div>
+                    <button (click)="vieworder(order.id)" class="px-6 py-2 bg-gray-800 text-white rounded-full hover:bg-gray-900 transition-colors font-medium">
+                      View Details
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Pagination Controls -->
+          @if(totalPages > 1) {
+            <div class="flex items-center justify-between mt-8 p-4 bg-white/50 rounded-xl border border-gray-200">
+              <!-- Previous Button -->
+              <button
+                (click)="goToPreviousPage()"
+                [disabled]="currentPage === 1"
+                class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                Previous
+              </button>
+
+              <!-- Page Numbers -->
+              <div class="flex items-center gap-1">
+                @if(visiblePageNumbers[0] > 1) {
+                  <button
+                    (click)="goToPage(1)"
+                    class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all">
+                    1
+                  </button>
+                  @if(visiblePageNumbers[0] > 2) {
+                    <span class="px-2 text-gray-500">...</span>
+                  }
+                }
+
+                @for(pageNum of visiblePageNumbers; track pageNum) {
+                  <button
+                    (click)="goToPage(pageNum)"
+                    [class]="pageNum === currentPage
+                      ? 'px-3 py-2 text-sm font-medium text-white bg-gray-800 border border-blue-600 rounded-lg'
+                      : 'px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all'">
+                    {{ pageNum }}
+                  </button>
+                }
+
+                @if(visiblePageNumbers[visiblePageNumbers.length - 1] < totalPages) {
+                  @if(visiblePageNumbers[visiblePageNumbers.length - 1] < totalPages - 1) {
+                    <span class="px-2 text-gray-500">...</span>
+                  }
+                  <button
+                    (click)="goToPage(totalPages)"
+                    class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all">
+                    {{ totalPages }}
+                  </button>
+                }
+              </div>
+
+              <!-- Next Button -->
+              <button
+                (click)="goToNextPage()"
+                [disabled]="currentPage === totalPages"
+                class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+                Next
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
+          }
+
+        } @else {
+          <!-- Empty State -->
+          <div class="text-center py-12">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-medium text-gray-800 mb-2">No orders yet</h3>
+            <p class="text-gray-600">Your orders will appear here once you make a purchase.</p>
+          </div>
+        }
+
+      </div>
+    </div>
+  </div>
+</div>

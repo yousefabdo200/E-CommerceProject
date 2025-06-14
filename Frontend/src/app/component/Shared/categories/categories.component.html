@@ -1,0 +1,66 @@
+<!-- categories.component.html -->
+<div class="bg-gray-800 text-white p-4 rounded-lg">
+  <h1 class="text-2xl font-bold mb-4">Categories</h1>
+
+  <!-- Loading state -->
+  @if (loading) {
+    <div class="flex justify-center items-center py-8">
+      <div class="text-center">
+        <div class="loading loading-spinner loading-md text-white"></div>
+        <p class="text-gray-300 mt-2">Loading categories...</p>
+      </div>
+    </div>
+  }
+
+  <!-- Error state -->
+  @if (error && !loading) {
+    <div class="alert alert-error mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>{{ error }}</span>
+    </div>
+  }
+
+  <!-- Categories list -->
+  @if (!loading && !error) {
+    <div class="flex flex-col gap-2">
+      <!-- Show All Products Button -->
+      <button
+        (click)="showAllProducts()"
+        [class]="isSelected(null)
+          ? 'bg-blue-600 text-white p-3 rounded shadow font-semibold transition-all duration-200'
+          : 'text-gray-300 hover:bg-gray-700 hover:text-white p-3 rounded shadow transition-all duration-200'"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg>
+        All Products
+      </button>
+
+      <!-- Category buttons -->
+      @for (category of categories; track category.id) {
+        <button
+          (click)="onCategoryClick(category.id)"
+          [class]="isSelected(category.id)
+            ? 'bg-blue-600 text-white p-3 rounded shadow font-semibold transition-all duration-200'
+            : 'text-gray-300 hover:bg-gray-700 hover:text-white p-3 rounded shadow transition-all duration-200'"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+          </svg>
+          {{ category.name }}
+        </button>
+      }
+    </div>
+
+    @if (categories.length === 0) {
+      <div class="text-center py-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+        </svg>
+        <p class="text-gray-400">No categories available</p>
+      </div>
+    }
+  }
+</div>
