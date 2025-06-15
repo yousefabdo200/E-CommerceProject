@@ -9,7 +9,7 @@ A full-stack E-Commerce web application built with **Angular** and **Laravel**, 
 - **Frontend:** Angular
 - **Backend:** Laravel
 - **Database:** MySQL
-- **Authentication:** Laravel Sanctum / Passport (via guards: `auth:api`, `auth:admin`)
+- **Authentication:** JWT (via guards: `auth:api`, `auth:admin`)
 
 ---
 
